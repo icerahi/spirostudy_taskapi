@@ -4,12 +4,15 @@ from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
+# add two extra field for role by inheriting AbstractUser
+
 
 class User(AbstractUser):
     is_student = models.BooleanField(default=False)
     is_instructor = models.BooleanField(default=False)
 
 
+# Instructor model more field can be add later
 class Instructor(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -17,6 +20,8 @@ class Instructor(models.Model):
 
     def __str__(self):
         return self.user.username
+
+# Student model more field can be add later
 
 
 class Student(models.Model):
@@ -26,6 +31,9 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.username
+
+# when a user is created it will check his role and will create object,
+# this role will get from register endpoint
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

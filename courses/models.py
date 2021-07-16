@@ -1,13 +1,15 @@
 from django.db import models
 from accounts.models import Instructor, Student
 
+# our course model that can only create from instructor user role
+
 
 class Course(models.Model):
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    enrolled = models.ManyToManyField(
-        Student, blank=True, related_name="enrolled")
+    title      = models.CharField(max_length=100)
+    description= models.TextField()
+    enrolled   = models.ManyToManyField(
+                Student, blank=True, related_name="enrolled")
 
     active = models.BooleanField(default=True, blank=True)
 

@@ -1,7 +1,7 @@
-from courses.models import Course
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from courses.serializers import CourseSerializer
+
 User = get_user_model()
 
 
@@ -26,6 +26,8 @@ class ProfileSerializer(serializers.Serializer):
 
     def get_courses(self, obj):
         request = self.context.get('request')
+
+        # if user is a student it will return his enrolled courses
         if obj.is_student:
             all_enrolled = obj.student.enrolled.all()
             count = all_enrolled.count()
@@ -34,6 +36,7 @@ class ProfileSerializer(serializers.Serializer):
                 'enrolled_courses': CourseSerializer(all_enrolled, many=True, context={'request': request}).data
             }
             return data
+        # if use is a instructor it will return his created courses
         if obj.is_instructor:
             all_courses = obj.instructor.course_set.all()
             count = all_courses.count()

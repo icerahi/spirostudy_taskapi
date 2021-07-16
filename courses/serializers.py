@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import Course
 from rest_framework.reverse import reverse as drf_reverse
 
+# course serializers
+
 
 class CourseSerializer(serializers.ModelSerializer):
     instructor = serializers.SerializerMethodField(read_only=True)
@@ -11,6 +13,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        # three extra fields
         extra_fields = ('uri', 'instructor', 'enroll_now')
         read_only_fields = ('instructor',)
 
@@ -21,6 +24,7 @@ class CourseSerializer(serializers.ModelSerializer):
     def get_instructor(self, obj):
         return obj.instructor.user.username
 
+    # if student is already enrolled course it will show 'enrolled' otherwise will show enroll url
     def get_enroll_now(self, obj):
         request = self.context.get('request')
 

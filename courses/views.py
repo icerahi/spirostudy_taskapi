@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, mixins, permissions
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsOwnerAccessOnly, StudentEnrollOnly
 from .models import Course
 from .serializers import CourseSerializer
 from rest_framework.authentication import BasicAuthentication
@@ -9,9 +9,9 @@ from django.shortcuts import get_object_or_404
 
 
 class CourseDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsOwnerOrReadOnly]
-    authentication_classes = [BasicAuthentication]
 
+    permission_classes = [permissions.IsAuthenticated,
+                          IsOwnerOrReadOnly, IsOwnerAccessOnly]  # our custom permissions classes
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
@@ -26,25 +26,23 @@ class CourseDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CourseListAndCreateAPIView(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # filtering all active courses
     queryset = Course.objects.filter(active=True)
     serializer_class = CourseSerializer
-    authentication_classes = [BasicAuthentication]
 
     def post(self, request, *args, **kwargs):
+        # only instructor role user can create course
         if request.user.is_instructor:
             return self.create(request, *args, **kwargs)
         return Response({'detail': 'You must be a Instructor to create course!!'})
 
     def perform_create(self, serializer):
-        print(serializer.validated_data)
-        print(self.request.user)
+        # setting current user as instructor
         serializer.save(instructor=self.request.user.instructor)
 
 
+# course enroll api view, only student can able to enroll course
 class CourseEnrollAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request, *args, **kwargs):
         if request.user.is_student:
             course_id = self.kwargs.get('pk')

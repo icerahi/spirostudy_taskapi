@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+# instructor registration serializer
+
 
 class InstructorRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -22,6 +24,7 @@ class InstructorRegisterSerializer(serializers.ModelSerializer):
     def get_message(self, obj):
         return f'Thanks for Registration! Please Complete Your Profile!'
 
+    # checking confirm password
     def validate(self, data):
         pw = data.get('password')
         pw2 = data.pop('password2')
@@ -29,6 +32,7 @@ class InstructorRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Password musk match!")
         return data
 
+    # creating user with role instructor
     def create(self, validated_data):
         user_obj = User(username=validated_data.get('username'))
         user_obj.set_password(validated_data.get('password'))
@@ -37,7 +41,10 @@ class InstructorRegisterSerializer(serializers.ModelSerializer):
         return user_obj
 
 
+# Inherit above InstructorRegisterSerializer because both functionality will be almost same
 class StudentRegisterSerializer(InstructorRegisterSerializer):
+
+    # creating user with role student
     def create(self, validated_data):
         user_obj = User(username=validated_data.get('username'))
         user_obj.set_password(validated_data.get('password'))

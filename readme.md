@@ -13,7 +13,8 @@ python manage.py runserver
 
 ## all endpoints Guide
 
-Note : To access all endpoints you must have to send with Basic Authentication Creadentials (username,password).
+Note : We have only two user role (instructor and student).Instructor and Student both can register,view own profile,visit other's courses,But Instructor can only create courses,update,delete and keep hide from others. Student can enroll those open courses.
+After register,To access all endpoints you must have to send Basic Authentication Creadentials (username,password) with requests.
 
 ### Instructor Perform
 
@@ -56,6 +57,8 @@ Course update:
 PUT : /api/<course_id>/
     json_data = {
         "title":"blabla update",
+        "description":"bla bla update",
+        "active":true/false
     }
 ```
 

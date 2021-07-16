@@ -8,23 +8,13 @@ from .serializers import InstructorRegisterSerializer, StudentRegisterSerializer
 from django.contrib.auth import logout
 
 User = get_user_model()
-# Create your views here.
 
-# class AuthAPIView(APIView):
-#     def post(self,request,*args,**kwargs):
-#         if request.user.is_authenticated:
-#             return Response({"Detail":"You are already authenticated"},status=400)
-#         data = request.data
-#         username = data.get('username')
-#         password = data.get('password')
-#         user    =  authenticate(username,password)
-#         if user:
-#             if user.check_password(password):
+# instructor registration view
 
 
 class InstructorRegisterAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
-    authentication_classes = [BasicAuthentication]
+    permission_classes = [permissions.AllowAny]
     serializer_class = InstructorRegisterSerializer
 
     def get_serialzier_context(self, *args, **kwargs):
@@ -34,14 +24,6 @@ class InstructorRegisterAPIView(generics.CreateAPIView):
         return Response({'detail': 'Get Method not allowed here'})
 
 
+# student registration view is inherit from above class
 class StudentRegisterAPIView(InstructorRegisterAPIView):
     serializer_class = StudentRegisterSerializer
-
-
-class LogOutAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated)
-    authentication_classes = (BasicAuthentication)
-
-    def post(self, request):
-        logout(request)
-        return
