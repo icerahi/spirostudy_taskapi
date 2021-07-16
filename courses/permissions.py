@@ -7,8 +7,9 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        if obj.instructor == request.user:
+        if obj.instructor == request.user.instructor:
             return True
+
 
 class StudentEnrollOnly(permissions.BasePermission):
     message = "You have you to be a student to enroll this course!"

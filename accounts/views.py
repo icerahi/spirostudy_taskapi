@@ -23,9 +23,9 @@ class ProfileAPIView(APIView):
 
     def get(self, request):
         user = request.user
-        print(user)
         profile = User.objects.get(username=user.username)
-        print(profile)
         serializer = ProfileSerializer(profile, context={'request': request})
-        print(serializer.data)
-        return Response({"message": "Get reqeust", "profile": serializer.data})
+        return Response({"profile": serializer.data})
+
+    def post(self,request):
+        return Response({'detail':'Post Method not allowed here'})

@@ -12,4 +12,4 @@ class Course(models.Model):
     active = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
-        return f'{self.instructor}-{self.title}'
+        return self.title

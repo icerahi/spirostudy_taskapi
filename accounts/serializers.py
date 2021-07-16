@@ -31,7 +31,7 @@ class ProfileSerializer(serializers.Serializer):
             count = all_enrolled.count()
             data = {
                 'total': count,
-                'courses': CourseSerializer(all_enrolled, many=True, context={'request': request}).data
+                'enrolled_courses': CourseSerializer(all_enrolled, many=True, context={'request': request}).data
             }
             return data
         if obj.is_instructor:
@@ -39,6 +39,6 @@ class ProfileSerializer(serializers.Serializer):
             count = all_courses.count()
             data = {
                 'total': count,
-                'courses': CourseSerializer(all_courses, many=True, context={'request': request}).data
+                'created_courses': CourseSerializer(all_courses, many=True, context={'request': request}).data
             }
             return data

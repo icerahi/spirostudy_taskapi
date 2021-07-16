@@ -23,8 +23,9 @@ class CourseSerializer(serializers.ModelSerializer):
 
     def get_enroll_now(self, obj):
         request = self.context.get('request')
+
         if request.user.is_student:
             if obj.enrolled.filter(user=request.user).exists():
                 return "enrolled"
-            return drf_reverse('courses:enroll', kwargs={'pk': obj.pk}, request=request)
-        return "You Instructor"
+
+        return drf_reverse('courses:enroll', kwargs={'pk': obj.pk}, request=request)

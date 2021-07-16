@@ -5,6 +5,7 @@ from rest_framework import permissions, generics
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework.authentication import BasicAuthentication
 from .serializers import InstructorRegisterSerializer, StudentRegisterSerializer
+from django.contrib.auth import logout
 
 User = get_user_model()
 # Create your views here.
@@ -29,6 +30,18 @@ class InstructorRegisterAPIView(generics.CreateAPIView):
     def get_serialzier_context(self, *args, **kwargs):
         return {'request': self.request}
 
+    def get(self, request, *args, **kwargs):
+        return Response({'detail': 'Get Method not allowed here'})
+
 
 class StudentRegisterAPIView(InstructorRegisterAPIView):
     serializer_class = StudentRegisterSerializer
+
+
+class LogOutAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated)
+    authentication_classes = (BasicAuthentication)
+
+    def post(self, request):
+        logout(request)
+        return

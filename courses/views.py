@@ -8,10 +8,15 @@ from rest_framework.authentication import BasicAuthentication
 from django.shortcuts import get_object_or_404
 
 
-class CourseDetailUpdateDeleteAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
+class CourseDetailUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
+    authentication_classes = [BasicAuthentication]
+
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -21,7 +26,7 @@ class CourseDetailUpdateDeleteAPIView(mixins.UpdateModelMixin, mixins.DestroyMod
 
 
 class CourseListAndCreateAPIView(mixins.CreateModelMixin, generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Course.objects.filter(active=True)
     serializer_class = CourseSerializer
     authentication_classes = [BasicAuthentication]
