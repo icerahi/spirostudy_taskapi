@@ -1,4 +1,4 @@
-Live_test : https://spirotask.pythonanywhere.com
+Live_test : https://spirotask.pythonanywhere.com/api/
 
 ## Local Installation
 
@@ -19,7 +19,6 @@ After register,To access all endpoints you must have to send Basic Authenticatio
 ### Instructor Perform
 
 Instructor register:
-
 ```
 Post: /api/register/student/
     json_data = {
@@ -29,7 +28,6 @@ Post: /api/register/student/
 ```
 
 Create Course:
-
 ```
 POST : /api/
     json_data = {
@@ -40,19 +38,16 @@ POST : /api/
 ```
 
 Allcourses:
-
 ```
 GET : /api/
 ```
 
 Single Course:
-
 ```
 GET : /api/<course_id>/
 ```
 
 Course update:
-
 ```
 PUT : /api/<course_id>/
     json_data = {
@@ -63,13 +58,11 @@ PUT : /api/<course_id>/
 ```
 
 Course Delete:
-
 ```
 Delete: /api/<course_id>/
 ```
 
 Profile and created_course:
-
 ```
 Get : /api/profile/
 ```
@@ -77,7 +70,6 @@ Get : /api/profile/
 ### Student Perform
 
 register:
-
 ```
 Post: /api/register/student/
     json_data = {
@@ -88,7 +80,6 @@ Post: /api/register/student/
 ```
 
 Allcourses:
-
 ```
 Get : /api/
 ```
