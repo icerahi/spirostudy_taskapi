@@ -16,7 +16,7 @@ python manage.py runserver
 Note : We have only two user role (instructor and student).Instructor and Student both can register,view own profile,visit other's courses,But Instructor can only create courses,update,delete and keep hide from others. Student can enroll those open courses.
 After register,To access all endpoints you must have to send Basic Authentication Creadentials (username,password) with requests.
 
-### Instructor Perform
+### For Instructor  
 
 Instructor register:
 ```
@@ -67,7 +67,7 @@ Profile and created_course:
 Get : /api/profile/
 ```
 
-### Student Perform
+### For Student 
 
 register:
 ```
