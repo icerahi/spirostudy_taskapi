@@ -20,7 +20,7 @@ After register,To access all endpoints you must have to send Basic Authenticatio
 
 Instructor register:
 ```
-Post: /api/register/student/
+Post: /api/register/instructor/
     json_data = {
     "username":"username",
     "password":"password",
